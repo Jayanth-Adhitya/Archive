@@ -25,12 +25,10 @@ class ImageVersionResponse(BaseModel):
     edit_prompt: Optional[str]
     created_at: datetime
 
-    @field_validator('file_path')
+    @field_validator('file_path', mode='before')
     @classmethod
     def normalize_file_path(cls, v):
         """Convert filesystem path to full backend URL"""
-        import os
-
         # Already a full URL, return as-is
         if v.startswith('http'):
             return v
@@ -45,9 +43,8 @@ class ImageVersionResponse(BaseModel):
         elif 'uploads/' in v and not v.startswith('/uploads/'):
             v = '/' + v
 
-        # Prepend backend URL (use environment variable or default)
-        backend_url = os.getenv('BACKEND_URL', 'https://api.archive.mehh.ae')
-        v = f"{backend_url}{v}"
+        # HARDCODED backend URL for api.archive.mehh.ae
+        v = f"https://api.archive.mehh.ae{v}"
 
         return v
 
@@ -69,12 +66,10 @@ class ImageResponse(BaseModel):
     tags: List[ImageTagResponse] = []
     versions: List[ImageVersionResponse] = []
 
-    @field_validator('file_path')
+    @field_validator('file_path', mode='before')
     @classmethod
     def normalize_file_path(cls, v):
         """Convert filesystem path to full backend URL"""
-        import os
-
         # Already a full URL, return as-is
         if v.startswith('http'):
             return v
@@ -89,9 +84,8 @@ class ImageResponse(BaseModel):
         elif 'uploads/' in v and not v.startswith('/uploads/'):
             v = '/' + v
 
-        # Prepend backend URL (use environment variable or default)
-        backend_url = os.getenv('BACKEND_URL', 'https://api.archive.mehh.ae')
-        v = f"{backend_url}{v}"
+        # HARDCODED backend URL for api.archive.mehh.ae
+        v = f"https://api.archive.mehh.ae{v}"
 
         return v
 
