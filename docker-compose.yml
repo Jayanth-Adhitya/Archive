@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database with pgvector extension
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: ai-archive-db
+    environment:
+      POSTGRES_USER: ${DB_USER:-imageapp}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme123}
+      POSTGRES_DB: ${DB_NAME:-imagedb}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-imageapp} -d ${DB_NAME:-imagedb}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # FastAPI backend
+  backend:
+    build: ./backend
+    container_name: ai-archive-backend
+    environment:
+      DATABASE_URL: postgresql://${DB_USER:-imageapp}:${DB_PASSWORD:-changeme123}@postgres:5432/${DB_NAME:-imagedb}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-key-change-in-production}
+      JWT_ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+      REFRESH_TOKEN_EXPIRE_DAYS: 7
+      UPLOAD_DIR: /app/uploads
+      MAX_UPLOAD_SIZE: 10485760
+      ALLOWED_EXTENSIONS: .jpg,.jpeg,.png,.gif,.webp
+      CORS_ORIGINS: http://localhost:3000,http://localhost:5173,http://localhost:80,http://localhost
+      ENVIRONMENT: production
+    volumes:
+      - uploads_data:/app/uploads
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # React frontend
+  frontend:
+    build: ./frontend
+    container_name: ai-archive-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  uploads_data:
+    driver: local

@@ -1,0 +1,37 @@
+# Web Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+
+# Database
+psycopg2-binary==2.9.9
+sqlalchemy==2.0.25
+alembic==1.13.1
+pgvector==0.2.4
+
+# Authentication
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+bcrypt==4.1.2
+
+# AI/ML
+transformers==4.37.2
+torch==2.1.2
+torchvision==0.16.2
+pillow==10.2.0
+numpy==1.26.3
+sentence-transformers==2.3.1
+google-generativeai==0.8.5
+langchain==0.3.12
+langchain-google-genai==2.0.8
+langchain-core==0.3.28
+
+# Utilities
+python-dotenv==1.0.0
+pydantic>=2.7.4,<3.0.0
+pydantic-settings>=2.1.0
+email-validator==2.2.0
+aiofiles==23.2.1
+
+# CORS
+fastapi-cors==0.0.6
