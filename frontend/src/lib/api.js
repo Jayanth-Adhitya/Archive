@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+// Use environment variable or default to production API
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://api.archive.mehh.ae/api';
 
 // Create axios instance
 const api = axios.create({
@@ -8,6 +9,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: false, // Set to true only if using cookies
 });
 
 // Request interceptor to add JWT token

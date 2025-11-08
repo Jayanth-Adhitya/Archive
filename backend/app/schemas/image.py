@@ -28,7 +28,8 @@ class ImageVersionResponse(BaseModel):
     @field_validator('file_path')
     @classmethod
     def normalize_file_path(cls, v):
-        """Convert filesystem path to URL path"""
+        """Convert filesystem path to full backend URL"""
+        import os
         # Remove leading ./ if present
         if v.startswith('./'):
             v = v[2:]
@@ -38,6 +39,12 @@ class ImageVersionResponse(BaseModel):
             v = v.replace('/app/uploads/', '/uploads/')
         elif 'uploads/' in v and not v.startswith('/uploads/'):
             v = '/' + v
+
+        # For production, prepend backend URL for cross-domain access
+        backend_url = os.getenv('BACKEND_URL', '')
+        if backend_url and not v.startswith('http'):
+            v = f"{backend_url}{v}"
+
         return v
 
     class Config:
@@ -61,7 +68,8 @@ class ImageResponse(BaseModel):
     @field_validator('file_path')
     @classmethod
     def normalize_file_path(cls, v):
-        """Convert filesystem path to URL path"""
+        """Convert filesystem path to full backend URL"""
+        import os
         # Remove leading ./ if present
         if v.startswith('./'):
             v = v[2:]
@@ -71,6 +79,12 @@ class ImageResponse(BaseModel):
             v = v.replace('/app/uploads/', '/uploads/')
         elif 'uploads/' in v and not v.startswith('/uploads/'):
             v = '/' + v
+
+        # For production, prepend backend URL for cross-domain access
+        backend_url = os.getenv('BACKEND_URL', '')
+        if backend_url and not v.startswith('http'):
+            v = f"{backend_url}{v}"
+
         return v
 
     class Config:
