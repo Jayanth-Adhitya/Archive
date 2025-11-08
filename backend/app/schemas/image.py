@@ -30,20 +30,24 @@ class ImageVersionResponse(BaseModel):
     def normalize_file_path(cls, v):
         """Convert filesystem path to full backend URL"""
         import os
+
+        # Already a full URL, return as-is
+        if v.startswith('http'):
+            return v
+
         # Remove leading ./ if present
         if v.startswith('./'):
             v = v[2:]
+
         # Replace absolute upload directory path with relative /uploads
-        # Handle both ./uploads and /app/uploads patterns
         if '/app/uploads/' in v:
             v = v.replace('/app/uploads/', '/uploads/')
         elif 'uploads/' in v and not v.startswith('/uploads/'):
             v = '/' + v
 
-        # For production, prepend backend URL for cross-domain access
-        backend_url = os.getenv('BACKEND_URL', '')
-        if backend_url and not v.startswith('http'):
-            v = f"{backend_url}{v}"
+        # Prepend backend URL (use environment variable or default)
+        backend_url = os.getenv('BACKEND_URL', 'https://api.archive.mehh.ae')
+        v = f"{backend_url}{v}"
 
         return v
 
@@ -70,20 +74,24 @@ class ImageResponse(BaseModel):
     def normalize_file_path(cls, v):
         """Convert filesystem path to full backend URL"""
         import os
+
+        # Already a full URL, return as-is
+        if v.startswith('http'):
+            return v
+
         # Remove leading ./ if present
         if v.startswith('./'):
             v = v[2:]
+
         # Replace absolute upload directory path with relative /uploads
-        # Handle both ./uploads and /app/uploads patterns
         if '/app/uploads/' in v:
             v = v.replace('/app/uploads/', '/uploads/')
         elif 'uploads/' in v and not v.startswith('/uploads/'):
             v = '/' + v
 
-        # For production, prepend backend URL for cross-domain access
-        backend_url = os.getenv('BACKEND_URL', '')
-        if backend_url and not v.startswith('http'):
-            v = f"{backend_url}{v}"
+        # Prepend backend URL (use environment variable or default)
+        backend_url = os.getenv('BACKEND_URL', 'https://api.archive.mehh.ae')
+        v = f"{backend_url}{v}"
 
         return v
 
