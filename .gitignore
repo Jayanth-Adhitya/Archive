@@ -55,7 +55,6 @@ yarn-error.log*
 .dockerignore
 
 # ML Models (cached by Docker)
-models/
 *.pt
 *.pth
 *.onnx
