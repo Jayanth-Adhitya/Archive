@@ -64,31 +64,36 @@ const ImageGallery = ({ onImageSelect }) => {
   return (
     <div className="space-y-6">
       {/* Search Bar */}
-      <form onSubmit={handleSearch} className="flex gap-2">
+      <form onSubmit={handleSearch} className="flex flex-col lg:flex-row gap-2">
         <div className="flex-1">
           <Input
             type="text"
-            placeholder="Search by tags (e.g., cat, beach, sunset)..."
+            placeholder="Search tags..."
+            className="lg:placeholder:text-transparent"
+            data-lg-placeholder="Search by tags (e.g., cat, beach, sunset)..."
             value={localSearchQuery}
             onChange={(e) => setLocalSearchQuery(e.target.value)}
           />
         </div>
-        <Button type="submit">
-          <Search className="w-5 h-5 mr-2" />
-          Search
-        </Button>
-        {searchQuery && (
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => {
-              setLocalSearchQuery('');
-              clearSearch();
-            }}
-          >
-            Clear
+        <div className="flex gap-2">
+          <Button type="submit" className="flex-1 lg:flex-none">
+            <Search className="w-5 h-5 lg:mr-2" />
+            <span className="lg:inline hidden">Search</span>
           </Button>
-        )}
+          {searchQuery && (
+            <Button
+              type="button"
+              variant="outline"
+              className="flex-1 lg:flex-none"
+              onClick={() => {
+                setLocalSearchQuery('');
+                clearSearch();
+              }}
+            >
+              Clear
+            </Button>
+          )}
+        </div>
       </form>
 
       {/* Search Results Info */}
@@ -110,11 +115,11 @@ const ImageGallery = ({ onImageSelect }) => {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
           {displayImages.map((image) => (
             <div
               key={image.id}
-              className="glass-card p-2 group cursor-pointer hover:scale-105 transition-all duration-200"
+              className="glass-card p-1 lg:p-2 group cursor-pointer hover:scale-105 transition-all duration-200"
               onClick={() => onImageSelect && onImageSelect(image)}
             >
               <div className="relative aspect-square overflow-hidden rounded-lg">
@@ -123,34 +128,41 @@ const ImageGallery = ({ onImageSelect }) => {
                   alt={image.filename}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center space-x-2">
-                  <Button
-                    variant="glass"
-                    size="icon"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onImageSelect && onImageSelect(image);
-                    }}
-                  >
-                    <Eye className="w-5 h-5" />
-                  </Button>
-                  <Button
-                    variant="glass"
-                    size="icon"
-                    onClick={(e) => handleEdit(image, e)}
-                  >
-                    <Edit className="w-5 h-5" />
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    size="icon"
-                    onClick={(e) => handleDelete(image.id, e)}
-                  >
-                    <Trash2 className="w-5 h-5" />
-                  </Button>
+                {/* Desktop: hover overlay, Mobile: always visible at bottom */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent lg:bg-black/50 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end lg:items-center justify-center pb-2 lg:pb-0">
+                  <div className="flex items-center space-x-1 lg:space-x-2">
+                    <Button
+                      variant="glass"
+                      size="icon"
+                      className="w-10 h-10 lg:w-auto lg:h-auto"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onImageSelect && onImageSelect(image);
+                      }}
+                    >
+                      <Eye className="w-4 h-4 lg:w-5 lg:h-5" />
+                    </Button>
+                    <Button
+                      variant="glass"
+                      size="icon"
+                      className="w-10 h-10 lg:w-auto lg:h-auto"
+                      onClick={(e) => handleEdit(image, e)}
+                    >
+                      <Edit className="w-4 h-4 lg:w-5 lg:h-5" />
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      className="w-10 h-10 lg:w-auto lg:h-auto"
+                      onClick={(e) => handleDelete(image.id, e)}
+                    >
+                      <Trash2 className="w-4 h-4 lg:w-5 lg:h-5" />
+                    </Button>
+                  </div>
                 </div>
               </div>
-              <div className="mt-2">
+              {/* Hide text on mobile, show on desktop */}
+              <div className="hidden lg:block mt-2">
                 <p className="text-white text-sm font-medium truncate">
                   {image.filename}
                 </p>

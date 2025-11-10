@@ -28,33 +28,35 @@ const DashboardPage = () => {
       <header className="glass-card mb-6 sticky top-0 z-10 animate-slide-in-left">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2 lg:space-x-3">
               <img
                 src="https://mehh.ae/images/logo2.png"
                 alt="Logo"
-                className="h-10 w-auto"
+                className="h-8 lg:h-10 w-auto"
               />
-              <h1 className="text-2xl font-bold text-white">AI Image Archive</h1>
+              <h1 className="text-lg lg:text-2xl font-bold text-white hidden sm:block">AI Image Archive</h1>
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 lg:space-x-4">
               <Button
                 variant={activeTab === 'gallery' ? 'default' : 'ghost'}
                 onClick={() => setActiveTab('gallery')}
+                className="px-3 lg:px-4"
               >
-                <ImageIcon className="w-5 h-5 mr-2" />
-                Gallery
+                <ImageIcon className="w-5 h-5 lg:mr-2" />
+                <span className="hidden lg:inline">Gallery</span>
               </Button>
               <Button
                 variant={activeTab === 'chat' ? 'default' : 'ghost'}
                 onClick={() => setActiveTab('chat')}
+                className="px-3 lg:px-4"
               >
-                <MessageSquare className="w-5 h-5 mr-2" />
-                AI Assistant
+                <MessageSquare className="w-5 h-5 lg:mr-2" />
+                <span className="hidden lg:inline">AI Assistant</span>
               </Button>
-              <Button variant="ghost" onClick={handleLogout}>
-                <LogOut className="w-5 h-5 mr-2" />
-                Logout
+              <Button variant="ghost" onClick={handleLogout} className="px-3 lg:px-4">
+                <LogOut className="w-5 h-5 lg:mr-2" />
+                <span className="hidden lg:inline">Logout</span>
               </Button>
             </div>
           </div>
