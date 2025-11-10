@@ -119,7 +119,7 @@ const ImageGallery = ({ onImageSelect }) => {
           {displayImages.map((image) => (
             <div
               key={image.id}
-              className="glass-card p-1 lg:p-2 group cursor-pointer hover:scale-105 transition-all duration-200"
+              className="glass-card p-0.5 lg:p-2 group cursor-pointer hover:scale-105 transition-all duration-200"
               onClick={() => onImageSelect && onImageSelect(image)}
             >
               <div className="relative aspect-square overflow-hidden rounded-lg">
@@ -129,34 +129,34 @@ const ImageGallery = ({ onImageSelect }) => {
                   className="w-full h-full object-cover"
                 />
                 {/* Desktop: hover overlay, Mobile: always visible at bottom */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent lg:bg-black/50 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end lg:items-center justify-center pb-2 lg:pb-0">
-                  <div className="flex items-center space-x-1 lg:space-x-2">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent lg:bg-black/50 opacity-100 lg:opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-end lg:items-center justify-center pb-1 px-1 lg:pb-0 lg:px-0">
+                  <div className="flex items-center gap-1 lg:gap-2">
                     <Button
                       variant="glass"
                       size="icon"
-                      className="w-10 h-10 lg:w-auto lg:h-auto"
+                      className="w-7 h-7 p-1.5 lg:w-auto lg:h-auto lg:p-2"
                       onClick={(e) => {
                         e.stopPropagation();
                         onImageSelect && onImageSelect(image);
                       }}
                     >
-                      <Eye className="w-4 h-4 lg:w-5 lg:h-5" />
+                      <Eye className="w-full h-full lg:w-5 lg:h-5" />
                     </Button>
                     <Button
                       variant="glass"
                       size="icon"
-                      className="w-10 h-10 lg:w-auto lg:h-auto"
+                      className="w-7 h-7 p-1.5 lg:w-auto lg:h-auto lg:p-2"
                       onClick={(e) => handleEdit(image, e)}
                     >
-                      <Edit className="w-4 h-4 lg:w-5 lg:h-5" />
+                      <Edit className="w-full h-full lg:w-5 lg:h-5" />
                     </Button>
                     <Button
                       variant="destructive"
                       size="icon"
-                      className="w-10 h-10 lg:w-auto lg:h-auto"
+                      className="w-7 h-7 p-1.5 lg:w-auto lg:h-auto lg:p-2"
                       onClick={(e) => handleDelete(image.id, e)}
                     >
-                      <Trash2 className="w-4 h-4 lg:w-5 lg:h-5" />
+                      <Trash2 className="w-full h-full lg:w-5 lg:h-5" />
                     </Button>
                   </div>
                 </div>
