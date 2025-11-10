@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Upload, Loader2, Images, CheckCircle, XCircle } from 'lucide-react';
+import { Upload, Loader2, Image, CheckCircle, XCircle } from 'lucide-react';
 import { useImagesStore } from '../../store/useImagesStore';
 import Button from '../ui/Button';
 
@@ -104,7 +104,7 @@ const ImageUpload = () => {
             </>
           ) : (
             <>
-              <Images className="w-12 h-12 text-primary" />
+              <Image className="w-12 h-12 text-primary" />
               <div className="text-center">
                 <p className="text-white text-lg font-medium">
                   {isDragActive ? 'Drop images here' : 'Drag & drop images'}
